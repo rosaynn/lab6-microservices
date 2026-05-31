@@ -1,10 +1,12 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import requests
+import os
 
 STUDENT_N = 7
 
-AUDIT_SERVICE_URL = "http://audit-service:8000"
+# Allow overriding the audit service URL via environment for testing/docker
+AUDIT_SERVICE_URL = os.getenv("AUDIT_SERVICE_URL", "http://audit-service:8000")
 
 app = FastAPI(title=f"Management Service N{STUDENT_N}")
 
