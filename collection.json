@@ -1,0 +1,88 @@
+{
+  "info": {
+    "name": "Lab6 Microservices Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Checks Management -> Audit interaction"
+  },
+  "item": [
+    {
+      "name": "Create Action",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"action_name\": \"ci-test\" }"
+        },
+        "url": {
+          "raw": "http://localhost:9007/action",
+          "protocol": "http",
+          "host": [ "localhost" ],
+          "port": "9007",
+          "path": [ "action" ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Create action status 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Response contains message', function () { var json = pm.response.json(); pm.expect(json.message).to.eql('Action completed'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "List Actions",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:9007/actions",
+          "protocol": "http",
+          "host": [ "localhost" ],
+          "port": "9007",
+          "path": [ "actions" ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('List actions status 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Actions array present', function () { var json = pm.response.json(); pm.expect(json.actions).to.be.an('array'); });"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Check Audit 702",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:8007/audit/702",
+          "protocol": "http",
+          "host": [ "localhost" ],
+          "port": "8007",
+          "path": [ "audit", "702" ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Audit 702 exists or returns 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Audit record contains action text', function () { var json = pm.response.json(); pm.expect(json.audit.action).to.include('Management action'); });"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
