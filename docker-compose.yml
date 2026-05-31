@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+
+  audit-service:
+    build: ./audit_service
+    container_name: audit-service-07
+    ports:
+      - "8007:8000"
+
+  management-service:
+    build: ./management_service
+    container_name: management-service-07
+    ports:
+      - "9007:8000"
+
+    depends_on:
+      - audit-service
