@@ -36,3 +36,20 @@ python -m pip install -r tests/requirements.txt
 pytest -q
 ```
 
+For PowerShell, use `Invoke-RestMethod` or `curl.exe` instead of the `curl` alias:
+
+```powershell
+$body = '{"action_name":"deploy"}'
+Invoke-RestMethod -Uri http://localhost:9007/action -Method Post -Body $body -ContentType 'application/json'
+Invoke-RestMethod -Uri http://localhost:9007/actions
+Invoke-RestMethod -Uri http://localhost:8007/audit/702
+```
+
+Or, if you have real curl installed:
+
+```powershell
+curl.exe -X POST http://localhost:9007/action -H 'Content-Type: application/json' -d '{"action_name":"deploy"}'
+curl.exe http://localhost:9007/actions
+curl.exe http://localhost:8007/audit/702
+```
+
