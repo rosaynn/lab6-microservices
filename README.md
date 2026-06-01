@@ -13,6 +13,8 @@ pytest -q
 
 The repository contains two services: `audit_service` and `management_service`. The management service posts audit logs to the audit service before completing actions.
 
+See the sequence diagram in `sequence_diagram.md` for the interaction flow.
+
 **How to present to a teacher**
 
 - **What to show:** Run the system with Docker Compose and demonstrate the Management Service calling the Audit Service to record actions. Show the POST /action flow, then show the audit entry created via GET /audit/{id}.
